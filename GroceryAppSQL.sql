@@ -168,3 +168,7 @@ SELECT * from GroceryList
 SELECT * from Family
 
 
+	--"FirstName": "Jason",
+	--"LastName": "Pantana",
+	--"Uid": "asfg",
+	--"email": "jasonpantana@gmail.com"

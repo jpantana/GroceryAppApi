@@ -9,5 +9,6 @@ namespace groceryapp.api.Repositories
     public interface IItemRepository
     {
         IEnumerable<Item> GetAllItems();
+        Item Add(Item newItem);
     }
 }

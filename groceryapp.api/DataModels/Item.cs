@@ -9,7 +9,7 @@ namespace groceryapp.api.DataModels
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int GroceryListId { get; }
-        public int GroceryStoreId { get; }
+        public int GroceryListId { get; set; }
+        public int GroceryStoreId { get; set; }
     }
 }

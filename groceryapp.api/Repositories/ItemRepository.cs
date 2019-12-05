@@ -24,5 +24,29 @@ namespace groceryapp.api.Repositories
                 return groceryItem;
             }
         } 
+
+        public Item Add(Item newItem)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                db.Open();
+
+                var sql = @"
+                        INSERT INTO [Item]
+                                    ([Name]
+                                    ,[GroceryListId]
+                                    ,[GroceryStoreId]
+                                    )
+	                        OUTPUT inserted.*
+                                VALUES
+                                    (@name
+                                    ,@groceryListId
+                                    ,@groceryStoreId
+                                    )";
+
+                return db.QueryFirst<Item>(sql, newItem);
+
+            }
+        }
     }
 }
