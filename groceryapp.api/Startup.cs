@@ -30,6 +30,10 @@ namespace groceryapp.api
             // ASP.NET Core 3.0 thing
             //services.AddControllers();
             services.AddScoped<IItemRepository, ItemRepository>();
+            services.AddScoped<IGroceryListRepository, GroceryListRepository>();
+            services.AddScoped<IGroceryStoreRepository, GroceryStoreRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IFamilyRepository, FamilyRepository>();
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
