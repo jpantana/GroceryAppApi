@@ -166,10 +166,8 @@ INSERT INTO Item (Name, GroceryListId, GroceryStoreId)
 SELECT * from Item
 SELECT * from [User]
 SELECT * from GroceryStore
-SELECT * from Recipe
+USE GroceriesDb
+
 SELECT * from GroceryList
 SELECT * from Family
 
-ALTER TABLE [Item]
-DROP COLUMN RecipeId;
-DROP TABLE Recipe;
