@@ -1,5 +1,7 @@
 ﻿using Dapper;
+using groceryapp.api.Commands;
 using groceryapp.api.DataModels;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -25,11 +27,11 @@ namespace groceryapp.api.Repositories
         }
 
 
-        public User Add(User newUser)
+        public User Add(User newUserCommand)
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                string sqlTimeAsString = newUser.SignUpDate.ToString("yyyy-MM-ddTHH:mm:ss.fff");
+                string sqlTimeAsString = newUserCommand.SignUpDate.ToString("yyyy-MM-ddTHH:mm:ss.fff");
                 
                 var sql = @"
                         INSERT INTO [User]
@@ -53,7 +55,7 @@ namespace groceryapp.api.Repositories
                                     )";
                 // Always passing int 1 for FamilyId to the create user bc 1 is the default 'family' 
                 // for new users until the do a put to join a family
-                return db.QueryFirst<User>(sql, newUser);
+                return db.QueryFirst<User>(sql, newUserCommand);
             }
         }
     }

@@ -1,4 +1,6 @@
-﻿using groceryapp.api.DataModels;
+﻿using groceryapp.api.Commands;
+using groceryapp.api.DataModels;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +11,6 @@ namespace groceryapp.api.Repositories
     public interface IUserRepository
     {
         IEnumerable<User> GetAllUsers();
+        User Add(User newUserCommand);
     }
 }
