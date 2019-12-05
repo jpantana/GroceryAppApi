@@ -34,7 +34,10 @@ namespace groceryapp.api.DataModels
         {
             var newUser = new User
             {
-
+                FirstName = newUserCommand.FirstName,
+                LastName = newUserCommand.LastName,
+                Email = newUserCommand.Email,
+                Uid = newUserCommand.Uid
             };
 
             var repo = new UserRepository();

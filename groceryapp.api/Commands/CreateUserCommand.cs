@@ -8,12 +8,12 @@ namespace groceryapp.api.Commands
     public class CreateUserCommand
     {
         public int Id { get; }
-        public string UID { get; set; }
+        public string Uid { get; set; }
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public DateTime SignUpDate { get; set; } = DateTime.Now;
+        public DateTime SignUpDate = DateTime.Now;
         public bool IsActive { get; set; }
-        public int FamilyId { get; }
+        public int FamilyId { get; set; }
     }
 }

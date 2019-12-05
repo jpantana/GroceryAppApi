@@ -35,10 +35,6 @@ GO
 
 
 
-
-
-
-
 -- Create a new table called '[User]' in schema '[dbo]'
 -- Drop the table if it already exists
 IF OBJECT_ID('[DBO].[User]', 'U') IS NOT NULL
@@ -50,7 +46,9 @@ CREATE TABLE [dbo].[User]
     [Id] INT IDENTITY NOT NULL PRIMARY KEY, -- Primary Key Columnn
     [FirstName] NVARCHAR(255) NOT NULL,
     [LastName] NVARCHAR(255) NOT NULL,
-    [SignUpDate] DATE NOT NULL,
+    [SignUpDate] DATETIME NOT NULL,
+	[Uid] NVARCHAR(255) NOT NULL,
+	[Email] NVARCHAR(255) NOT NULL,
     [IsActive] BIT NOT NULL,
 	[FamilyId] INT NOT NULL
 		FOREIGN KEY (FamilyId)
@@ -151,8 +149,8 @@ GO
 INSERT INTO Family (Name, DateCreated)
 	VALUES ('Pantana', '2019-12-03')
 
-INSERT INTO [User] (FirstName, LastName, SignUpDate, IsActive, FamilyId)
-	VALUES ('Josh', 'Pantana', '2019-12-03', 1, 1)
+INSERT INTO [User] (FirstName, LastName, IsActive, FamilyId, [Uid], Email, SignUpDate)
+	VALUES ('Josh', 'Pantana', 1, 1, 'lsfjsf8s', 'josh@josh.com', '1900-01-01 00:00:00')
 
 INSERT INTO GroceryList (Name, UserId, DateCreated)
 	VALUES ('Our Groceries', 1, '2019-12-03')
@@ -166,8 +164,7 @@ INSERT INTO Item (Name, GroceryListId, GroceryStoreId)
 SELECT * from Item
 SELECT * from [User]
 SELECT * from GroceryStore
-USE GroceriesDb
-
 SELECT * from GroceryList
 SELECT * from Family
+
 

@@ -29,7 +29,8 @@ namespace groceryapp.api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-
+                string sqlTimeAsString = newUser.SignUpDate.ToString("yyyy-MM-ddTHH:mm:ss.fff");
+                
                 var sql = @"
                         INSERT INTO [User]
                                     ([FirstName]
@@ -48,9 +49,10 @@ namespace groceryapp.api.Repositories
                                     ,@email
                                     ,@signUpDate
                                     ,'true'
-                                    ,@familyId
+                                    ,1
                                     )";
-
+                // Always passing int 1 for FamilyId to the create user bc 1 is the default 'family' 
+                // for new users until the do a put to join a family
                 return db.QueryFirst<User>(sql, newUser);
             }
         }
