@@ -23,5 +23,36 @@ namespace groceryapp.api.Repositories
                 return UserList;
             }
         }
+
+
+        public User Add(User newUser)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+
+                var sql = @"
+                        INSERT INTO [User]
+                                    ([FirstName]
+                                    ,[LastName]
+                                    ,[Uid]
+                                    ,[Email]
+                                    ,[SignUpDate]
+                                    ,[IsActive]
+                                    ,[FamilyId]
+                                    )
+	                        OUTPUT inserted.*
+                                VALUES
+                                    (@firstName
+                                    ,@lastName
+                                    ,@uid
+                                    ,@email
+                                    ,@signUpDate
+                                    ,'true'
+                                    ,@familyId
+                                    )";
+
+                return db.QueryFirst<User>(sql, newUser);
+            }
+        }
     }
 }
