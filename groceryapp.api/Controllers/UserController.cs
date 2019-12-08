@@ -29,6 +29,13 @@ namespace groceryapp.api.DataModels
             return _repo.GetAllUsers();
         }
 
+        [HttpGet("{uid}")]
+        public IEnumerable<User> GetSingle(string uid)
+        {
+            return _repo.GetSingleUser(uid);
+        }
+
+
         [HttpPost]
         public IActionResult CreateNewUser(CreateUserCommand newUserCommand)
         {
@@ -44,6 +51,22 @@ namespace groceryapp.api.DataModels
             var userThatGotCreated = repo.Add(newUser);
 
             return Created($"/user/{userThatGotCreated.FirstName}", userThatGotCreated);
+        }
+
+        [HttpPut("{uid}")]
+        public IActionResult UpdateUser(UpdateUserCommand updatedUserCommand, string uid)
+        {
+            //var repo = new UserRepository();
+
+            var updatedUser = new UpdateUserCommand
+            {
+                FirstName = updatedUserCommand.FirstName,
+                LastName = updatedUserCommand.LastName,
+            };
+
+            var trainerThatGotUpdated = _repo.Update(updatedUser, uid);
+
+            return Ok(trainerThatGotUpdated);
         }
     }
 }

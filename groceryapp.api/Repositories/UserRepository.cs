@@ -4,6 +4,7 @@ using groceryapp.api.DataModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
@@ -58,5 +59,40 @@ namespace groceryapp.api.Repositories
                 return db.QueryFirst<User>(sql, newUserCommand);
             }
         }
+
+        public IEnumerable<User> GetSingleUser(string uid)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                db.Open();
+
+                var sql = @"Select * From [User] Where [User].uid = @uid";
+
+                var user = db.Query<User>(sql, new { uid });
+
+                return user;
+            }
+        }
+
+        public ActionResult<User> Update(UpdateUserCommand updatedUser, string uid)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                db.Open();
+
+
+                var sql = @"UPDATE [User] 
+                            SET [FirstName] = @firstName
+                                ,[LastName] = @lastName
+                            OUTPUT INSERTED.*
+                            WHERE [Uid] = @uid";
+
+                updatedUser.Uid = uid;
+
+                var user = db.QueryFirst<User>(sql, updatedUser);
+                return user;
+            }
+        }
+
     }
 }

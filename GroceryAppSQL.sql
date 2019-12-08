@@ -172,3 +172,7 @@ SELECT * from Family
 	--"LastName": "Pantana",
 	--"Uid": "asfg",
 	--"email": "jasonpantana@gmail.com"
+
+
+ALTER TABLE [User] ALTER COLUMN FirstName NVARCHAR(255) NULL
+ALTER TABLE [User] ALTER COLUMN LastName NVARCHAR(255) NULL

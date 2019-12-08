@@ -12,5 +12,7 @@ namespace groceryapp.api.Repositories
     {
         IEnumerable<User> GetAllUsers();
         User Add(User newUserCommand);
+        IEnumerable<User> GetSingleUser(string uid);
+        ActionResult<User> Update(UpdateUserCommand updatedUser, string uid);
     }
 }
