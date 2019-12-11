@@ -48,5 +48,35 @@ namespace groceryapp.api.Repositories
 
             }
         }
+
+        public IEnumerable<Item> GetOnlyMyItems(int gLId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                db.Open();
+
+                var sql = @"
+                           SELECT * FROM [Item]
+                             WHERE GroceryListId = @groceryListId";
+
+                var parameters = new { groceryListId = gLId };
+
+                var myItems = db.Query<Item>(sql, parameters);
+
+                return myItems;
+            }
+        }
+
+        public bool Remove(int itemId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"DELETE
+                            From [Item]
+                            Where [Id] = @itemId";
+
+                return db.Execute(sql, new { itemId }) == 1;
+            }
+        }
     }
 }

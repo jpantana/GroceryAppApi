@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace groceryapp.api.DataModels
+namespace groceryapp.api.Commands
 {
-    public class GroceryList
+    public class CreateGroceryListCommand
     {
-        public int Id { get; }
         public string Name { get; set; }
         public int UserId { get; set; }
-        public DateTime DateCreated { get; set; }
+        public DateTime DateCreated { get; set; } = DateTime.Now;
+
     }
 }

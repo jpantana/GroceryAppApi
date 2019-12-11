@@ -44,5 +44,18 @@ namespace groceryapp.api.Controllers
 
             return Created($"/item/{itemThatGotCreated.Name}", itemThatGotCreated);
         }
+
+        [HttpGet("{gLId}")]
+        public IEnumerable<Item> GetMyItems(int gLId)
+        {
+            return _repo.GetOnlyMyItems(gLId);
+        }
+
+        [HttpDelete("{itemId}")]
+        public IActionResult DeleteItem(int itemId)
+        {
+            _repo.Remove(itemId);
+            return Ok();
+        }
     }
 }

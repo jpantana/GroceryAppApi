@@ -1,4 +1,5 @@
-﻿using groceryapp.api.DataModels;
+﻿using groceryapp.api.Commands;
+using groceryapp.api.DataModels;
 using groceryapp.api.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -26,6 +27,28 @@ namespace groceryapp.api.Controllers
         public IEnumerable<GroceryList> GetAll()
         {
             return _repo.GetGroceryLists();
+        }
+
+        [HttpGet("{id}")]
+        public IEnumerable<GroceryList> GetMyList(string id)
+        {
+            return _repo.GetMyGroceries(id);
+        }
+
+        [HttpPost]
+        public IActionResult CreateNewGroceryList(CreateGroceryListCommand newGroceryListCommand)
+        {
+            var newGroceryList = new GroceryList
+            {
+                Name = newGroceryListCommand.Name,
+                UserId = newGroceryListCommand.UserId,
+                DateCreated = newGroceryListCommand.DateCreated
+            };
+
+            var repo = new GroceryListRepository();
+            var groceryListThatGotCreated = repo.Add(newGroceryList);
+
+            return Created($"/grocerylist/{groceryListThatGotCreated.Name}", groceryListThatGotCreated);
         }
     }
 }
