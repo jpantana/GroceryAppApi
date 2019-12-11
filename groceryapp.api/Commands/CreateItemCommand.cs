@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace groceryapp.api.DataModels
+namespace groceryapp.api.Commands
 {
-    public class Item
+    public class CreateItemCommand
     {
         public int Id { get; set; }
         public string Name { get; set; }

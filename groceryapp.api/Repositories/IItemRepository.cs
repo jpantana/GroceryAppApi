@@ -9,5 +9,8 @@ namespace groceryapp.api.Repositories
     public interface IItemRepository
     {
         IEnumerable<Item> GetAllItems();
+        Item Add(Item newItem);
+        IEnumerable<Item> GetOnlyMyItems(int gLId);
+        bool Remove(int itemId);
     }
 }
