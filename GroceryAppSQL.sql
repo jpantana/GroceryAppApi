@@ -195,4 +195,7 @@ select * from [User]
 DELETE FROM GroceryList WHERE Id = 14
 DELETE FROM GroceryList WHERE Id = 13
 DELETE FROM GroceryList WHERE Id = 15
-	DELETE FROM GroceryList WHERE Id = 17
+DELETE FROM GroceryList WHERE Id = 17
+
+DELETE  From [Item]
+Where [Id] = 9;
