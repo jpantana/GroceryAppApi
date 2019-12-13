@@ -6,12 +6,12 @@ GO
 IF NOT EXISTS (
     SELECT [name]
         FROM sys.databases
-        WHERE [name] = N'GroceriesDb'
+        WHERE [name] = N'GroceryListDB'
 )
-CREATE DATABASE GroceriesDb
+CREATE DATABASE GroceryListDB
 GO
 
-USE GroceriesDb
+USE GroceryListDB
 
 
 

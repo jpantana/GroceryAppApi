@@ -1,4 +1,5 @@
-﻿using groceryapp.api.DataModels;
+﻿using groceryapp.api.Commands;
+using groceryapp.api.DataModels;
 using groceryapp.api.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,7 +12,7 @@ namespace groceryapp.api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class FamilyController
+    public class FamilyController : ControllerBase
     {
         private readonly ILogger<FamilyController> _logger;
         private readonly IFamilyRepository _repo;
@@ -26,6 +27,20 @@ namespace groceryapp.api.Controllers
         public IEnumerable<Family> GetAll()
         {
             return _repo.GetAllFamily();
+        }
+
+        [HttpPost]
+        public IActionResult CreateNewFamily(Family newFamilyCommand)
+        {
+            var newFamily = new Family
+            {
+                Name = newFamilyCommand.Name,
+            };
+
+            // var repo = new FamilyRepository();
+            var familyThatGotCreated = _repo.Add(newFamily);
+
+            return Created($"/family/{familyThatGotCreated.Name}", familyThatGotCreated);
         }
 
     }

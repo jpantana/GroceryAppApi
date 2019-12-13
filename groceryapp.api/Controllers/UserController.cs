@@ -50,6 +50,7 @@ namespace groceryapp.api.DataModels
             };
 
             var repo = new UserRepository();
+            // TRY TO USE _repo field that leans on the IUserRepo
             var userThatGotCreated = repo.Add(newUser);
 
             return Created($"/user/{userThatGotCreated.FirstName}", userThatGotCreated);
