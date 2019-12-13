@@ -94,5 +94,19 @@ namespace groceryapp.api.Repositories
             }
         }
 
+        public bool Remove(int userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                db.Open();
+
+                var sql = @"DELETE
+                            From [User]
+                            Where [Uid] = @userId";
+
+                return db.Execute(sql, new { userId }) == 1;
+            }
+        }
+
     }
 }
