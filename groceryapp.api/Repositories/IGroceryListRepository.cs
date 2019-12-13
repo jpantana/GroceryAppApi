@@ -13,5 +13,7 @@ namespace groceryapp.api.Repositories
         IEnumerable<GroceryList> GetGroceryLists();
         IEnumerable<GroceryList> GetMyGroceries(string userid);
         GroceryList Add(GroceryList newGroceryList);
+        bool Remove(int glId);
+
     }
 }

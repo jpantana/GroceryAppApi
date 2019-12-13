@@ -44,7 +44,9 @@ namespace groceryapp.api.DataModels
                 FirstName = newUserCommand.FirstName,
                 LastName = newUserCommand.LastName,
                 Email = newUserCommand.Email,
-                Uid = newUserCommand.Uid
+                Uid = newUserCommand.Uid,
+                // fam id is new. sql used to just say '1'
+                // FamilyId = newUserCommand.FamilyId
             };
 
             var repo = new UserRepository();
@@ -67,6 +69,14 @@ namespace groceryapp.api.DataModels
             var trainerThatGotUpdated = _repo.Update(updatedUser, uid);
 
             return Ok(trainerThatGotUpdated);
+        }
+
+        [HttpDelete("{uid}")]
+        public IActionResult DeleteThisUser(int uid)
+        {
+            _repo.Remove(uid);
+
+            return Ok();
         }
     }
 }

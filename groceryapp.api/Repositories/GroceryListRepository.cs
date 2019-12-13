@@ -68,5 +68,20 @@ namespace groceryapp.api.Repositories
             }
         }
 
+        public bool Remove(int glId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                db.Open();
+
+                var sql = @"DELETE
+                            From [GroceryList]
+                            Where [Id] = @glId";
+
+
+                return db.Execute(sql, new { glId }) == 1;
+            }
+        }
+
     }
 }

@@ -50,5 +50,13 @@ namespace groceryapp.api.Controllers
 
             return Created($"/grocerylist/{groceryListThatGotCreated.Name}", groceryListThatGotCreated);
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteGroceryList(int id)
+        {
+            _repo.Remove(id);
+
+            return Ok();
+        }
     }
 }
