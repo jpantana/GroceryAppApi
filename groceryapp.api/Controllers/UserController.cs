@@ -79,5 +79,11 @@ namespace groceryapp.api.DataModels
 
             return Ok();
         }
+
+        [HttpGet("myfamily/{familyId}")]
+        public ActionResult<IEnumerable<User>> GetMyFamilyMembers(int familyId)
+        {
+            return _repo.GetMyFamilyMembers(familyId);
+        }
     }
-}
+}// I LIEFT OFF ON THE URL PATH JUUST AVOVE

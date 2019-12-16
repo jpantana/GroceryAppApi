@@ -140,6 +140,58 @@ CREATE TABLE [dbo].Item
 );
 GO
 
+
+
+
+
+
+
+
+-- Create a table called '[Invite]' in schema '[dbo]'
+-- Drop the table if it already exists
+IF OBJECT_ID('[DBO].[Invite]', 'U') IS NOT NULL
+DROP TABLE [dbo].Invite
+GO
+-- Create the table in the specified schema
+CREATE TABLE [dbo].[Invite]
+(
+	[Id] INT IDENTITY NOT NULL PRIMARY KEY, -- Primary Key Columnn,
+	[FamilyId] INT NOT NULL
+        FOREIGN KEY (FamilyId)
+        REFERENCES Family (Id),
+	[UserId] INT NOT NULL
+		FOREIGN KEY (UserId)
+		REFERENCES [User] (Id),
+	[SenderId] INT NOT NULL
+		FOREIGN KEY (SenderId)
+		REFERENCES [User] (Id),
+	[DateCreated] DATE NOT NULL
+)
+GO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 -- SEED DATA
 
 USE GroceriesDb

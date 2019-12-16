@@ -11,5 +11,6 @@ namespace groceryapp.api.Repositories
     {
         IEnumerable<Family> GetAllFamily();
         Family Add(Family newFamilyCommand);
+        IEnumerable<Family> GetSingleFamily(int familyId);
     }
 }

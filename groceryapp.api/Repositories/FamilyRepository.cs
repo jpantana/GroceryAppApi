@@ -50,5 +50,19 @@ namespace groceryapp.api.Repositories
             }
         }
 
+        public IEnumerable<Family> GetSingleFamily(int familyId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                db.Open();
+
+                var sql = @"Select * From [Family] Where [Family].Id = @familyId";
+
+                var family = db.Query<Family>(sql, new { familyId });
+
+                return family;
+            }
+        }
+
     }
 }

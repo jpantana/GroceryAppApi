@@ -15,5 +15,6 @@ namespace groceryapp.api.Repositories
         IEnumerable<User> GetSingleUser(string uid);
         ActionResult<User> Update(UpdateUserCommand updatedUser, string uid);
         bool Remove(int userId);
+        List<User> GetMyFamilyMembers(int familyId);
     }
 }

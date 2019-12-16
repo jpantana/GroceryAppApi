@@ -108,5 +108,22 @@ namespace groceryapp.api.Repositories
             }
         }
 
+        public List<User> GetMyFamilyMembers(int familyId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                db.Open();
+                // may want not * but just user names or emails??
+                var sql = @"SELECT *
+                            From [User]
+                            Where [FamilyId] = @familyId";
+
+                var familyMembers = db.Query<User>(sql, new { familyId });
+
+                return familyMembers.AsList();
+
+            }
+        }
+
     }
 }
