@@ -35,6 +35,11 @@ namespace groceryapp.api.DataModels
             return _repo.GetSingleUser(uid);
         }
 
+        [HttpGet("lookup/{email}")]
+        public IEnumerable<User> GetByEmail(string email)
+        {
+            return _repo.GetUserByEmail(email);
+        }
 
         [HttpPost]
         public IActionResult CreateNewUser(CreateUserCommand newUserCommand)
@@ -45,8 +50,7 @@ namespace groceryapp.api.DataModels
                 LastName = newUserCommand.LastName,
                 Email = newUserCommand.Email,
                 Uid = newUserCommand.Uid,
-                // fam id is new. sql used to just say '1'
-                // FamilyId = newUserCommand.FamilyId
+                FamilyId = newUserCommand.FamilyId,
             };
 
             var repo = new UserRepository();
@@ -67,9 +71,23 @@ namespace groceryapp.api.DataModels
                 LastName = updatedUserCommand.LastName,
             };
 
-            var trainerThatGotUpdated = _repo.Update(updatedUser, uid);
+            var userThatGotUpdated = _repo.Update(updatedUser, uid);
 
-            return Ok(trainerThatGotUpdated);
+            return Ok(userThatGotUpdated);
+        }
+
+        [HttpPut("{toId}/{familyId}")]
+        public IActionResult ChangeFamily(int toId, string familyId)
+        {
+            var updatedUser = new ChangeFamilyCommand
+            {
+                Id = toId,
+                FamilyId = familyId,
+            };
+
+            var userThatGotUpdated = _repo.UpdateFamily(updatedUser);
+
+            return Ok(userThatGotUpdated);
         }
 
         [HttpDelete("{uid}")]
@@ -81,9 +99,9 @@ namespace groceryapp.api.DataModels
         }
 
         [HttpGet("myfamily/{familyId}")]
-        public ActionResult<IEnumerable<User>> GetMyFamilyMembers(int familyId)
+        public ActionResult<IEnumerable<User>> GetMyFamilyMembers(string familyId)
         {
             return _repo.GetMyFamilyMembers(familyId);
         }
     }
-}// I LIEFT OFF ON THE URL PATH JUUST AVOVE
+}

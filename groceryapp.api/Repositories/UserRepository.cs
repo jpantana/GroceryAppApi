@@ -13,7 +13,7 @@ namespace groceryapp.api.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        string _connectionString = "Server=localhost;Database=GroceriesDb;Trusted_Connection=True;";
+        string _connectionString = "Server=localhost;Database=GroceriesDb2;Trusted_Connection=True;";
 
         public IEnumerable<User> GetAllUsers()
         {
@@ -52,7 +52,7 @@ namespace groceryapp.api.Repositories
                                     ,@email
                                     ,@signUpDate
                                     ,'true'
-                                    ,1
+                                    ,@familyId
                                     )";
                 // Always passing int 1 for FamilyId to the create user bc 1 is the default 'family' 
                 // for new users until the do a put to join a family
@@ -66,9 +66,23 @@ namespace groceryapp.api.Repositories
             {
                 db.Open();
 
-                var sql = @"Select * From [User] Where [User].uid = @uid";
+                var sql = @"SELECT * FROM [User] WHERE [User].uid = @uid";
 
                 var user = db.Query<User>(sql, new { uid });
+
+                return user;
+            }
+        }
+
+        public IEnumerable<User> GetUserByEmail(string email)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                db.Open();
+
+                var sql = @"SELECT * FROM [User] WHERE [User].Email = @email";
+
+                var user = db.Query<User>(sql, new { Email = email });
 
                 return user;
             }
@@ -93,6 +107,29 @@ namespace groceryapp.api.Repositories
                 return user;
             }
         }
+        
+        public ActionResult<User> UpdateFamily(ChangeFamilyCommand updatedUser)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                db.Open();
+
+                var sql = @"UPDATE [User] 
+                            SET [FamilyId] = @familyId
+                            OUTPUT INSERTED.*
+                            WHERE [Id] = @toId";
+
+                var parameters = new
+                {
+                    toId = updatedUser.Id,
+                    familyId = updatedUser.FamilyId
+                };
+
+                var family = db.QueryFirst<User>(sql, parameters);
+
+                return family;
+            }
+        }
 
         public bool Remove(int userId)
         {
@@ -108,7 +145,7 @@ namespace groceryapp.api.Repositories
             }
         }
 
-        public List<User> GetMyFamilyMembers(int familyId)
+        public List<User> GetMyFamilyMembers(string familyId)
         {
             using (var db = new SqlConnection(_connectionString))
             {

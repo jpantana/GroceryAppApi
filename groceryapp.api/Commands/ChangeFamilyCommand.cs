@@ -5,11 +5,9 @@ using System.Threading.Tasks;
 
 namespace groceryapp.api.Commands
 {
-    public class CreateGroceryListCommand
+    public class ChangeFamilyCommand
     {
-        public string Name { get; set; }
+        public int Id { get; set; }
         public string FamilyId { get; set; }
-        public DateTime DateCreated { get; set; } = DateTime.Now;
-
     }
 }

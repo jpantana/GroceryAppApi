@@ -12,7 +12,7 @@ namespace groceryapp.api.Repositories
 {
     public class FamilyRepository : IFamilyRepository
     {
-        string _connectionString = "Server=localhost;Database=GroceriesDb;Trusted_Connection=True;";
+        string _connectionString = "Server=localhost;Database=GroceriesDb2;Trusted_Connection=True;";
 
         public IEnumerable<Family> GetAllFamily()
         {
@@ -26,7 +26,7 @@ namespace groceryapp.api.Repositories
             }
         }
 
-        public Family Add(Family newFamilyCommand)
+        public Family Add(CreateFamilyCommand newFamilyCommand)
         {
 
             using (var db = new SqlConnection(_connectionString))
@@ -37,12 +37,14 @@ namespace groceryapp.api.Repositories
 
                 var sql = @"
                         INSERT INTO [Family]
-                                    ([Name]
+                                    ([Id]
+                                    ,[Name]
                                     ,[DateCreated]
                                     )
 	                        OUTPUT inserted.*
                                 VALUES
-                                    (@name
+                                    (@id
+                                    ,@name
                                     ,@dateCreated
                                     )";
 
@@ -50,7 +52,7 @@ namespace groceryapp.api.Repositories
             }
         }
 
-        public IEnumerable<Family> GetSingleFamily(int familyId)
+        public IEnumerable<Family> GetSingleFamily(Guid familyId)
         {
             using (var db = new SqlConnection(_connectionString))
             {

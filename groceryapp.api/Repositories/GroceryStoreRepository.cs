@@ -10,7 +10,7 @@ namespace groceryapp.api.Repositories
 {
     public class GroceryStoreRepository : IGroceryStoreRepository
     {
-        string _connectionString = "Server=localhost;Database=GroceriesDb;Trusted_Connection=True;";
+        string _connectionString = "Server=localhost;Database=GroceriesDb2;Trusted_Connection=True;";
 
         public IEnumerable<GroceryStore> GetAllGroceryStores()
         {

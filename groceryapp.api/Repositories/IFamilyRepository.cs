@@ -10,7 +10,7 @@ namespace groceryapp.api.Repositories
     public interface IFamilyRepository
     {
         IEnumerable<Family> GetAllFamily();
-        Family Add(Family newFamilyCommand);
-        IEnumerable<Family> GetSingleFamily(int familyId);
+        Family Add(CreateFamilyCommand newFamilyCommand);
+        IEnumerable<Family> GetSingleFamily(Guid familyId);
     }
 }

@@ -11,7 +11,7 @@ namespace groceryapp.api.Repositories
     public interface IGroceryListRepository
     {
         IEnumerable<GroceryList> GetGroceryLists();
-        IEnumerable<GroceryList> GetMyGroceries(string userid);
+        IEnumerable<GroceryList> GetMyGroceries(string familyId);
         GroceryList Add(GroceryList newGroceryList);
         bool Remove(int glId);
 

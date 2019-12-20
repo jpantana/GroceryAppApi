@@ -7,7 +7,7 @@ namespace groceryapp.api.DataModels
 {
     public class Family
     {
-        public int Id { get; }
+        public string Id { get; set; }
         public string Name { get; set; }
         public DateTime DateCreated { get; set; } = DateTime.Now;
     }

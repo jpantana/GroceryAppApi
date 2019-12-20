@@ -30,17 +30,18 @@ namespace groceryapp.api.Controllers
         }
 
         [HttpGet("{familyId}")]
-        public IEnumerable<Family> GetSingleFamily(int familyId)
+        public IEnumerable<Family> GetSingleFamily(Guid familyId)
         {
             return _repo.GetSingleFamily(familyId);
         }
 
         [HttpPost]
-        public IActionResult CreateNewFamily(Family newFamilyCommand)
+        public IActionResult CreateNewFamily(CreateFamilyCommand newFamilyCommand)
         {
-            var newFamily = new Family
+            var newFamily = new CreateFamilyCommand
             {
                 Name = newFamilyCommand.Name,
+                Id = newFamilyCommand.Id
             };
 
             // var repo = new FamilyRepository();
