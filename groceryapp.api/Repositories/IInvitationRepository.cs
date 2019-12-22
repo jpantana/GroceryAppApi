@@ -12,5 +12,6 @@ namespace groceryapp.api.Repositories
         IEnumerable<Invitation> GetAllInvitations();
         IEnumerable<Invitation> GetJustMyInvitations(int toId);
         Invitation SendInvite(SendInvitationCommand newInvite);
+        bool DeleteThisInvite(int inviteId);
     }
 }

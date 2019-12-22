@@ -43,6 +43,7 @@ namespace groceryapp.api.Repositories
                                     ,[SignUpDate]
                                     ,[IsActive]
                                     ,[FamilyId]
+                                    ,[PhotoURL]
                                     )
 	                        OUTPUT inserted.*
                                 VALUES
@@ -53,6 +54,7 @@ namespace groceryapp.api.Repositories
                                     ,@signUpDate
                                     ,'true'
                                     ,@familyId
+                                    ,@photoURL
                                     )";
                 // Always passing int 1 for FamilyId to the create user bc 1 is the default 'family' 
                 // for new users until the do a put to join a family
@@ -73,6 +75,21 @@ namespace groceryapp.api.Repositories
                 return user;
             }
         }
+
+        public IEnumerable<User> GetSingleUserById(int id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                db.Open();
+
+                var sql = @"SELECT * FROM [User] WHERE [User].id = @id";
+
+                var user = db.Query<User>(sql, new { id });
+
+                return user;
+            }
+        }
+
 
         public IEnumerable<User> GetUserByEmail(string email)
         {
@@ -131,7 +148,7 @@ namespace groceryapp.api.Repositories
             }
         }
 
-        public bool Remove(int userId)
+        public bool Remove(string userId)
         {
             using (var db = new SqlConnection(_connectionString))
             {

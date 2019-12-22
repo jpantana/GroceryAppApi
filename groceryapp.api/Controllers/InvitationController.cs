@@ -48,5 +48,12 @@ namespace groceryapp.api.Controllers
 
             return Created($"/invitation/{invitationThatGotSent.FamilyId}", invitationThatGotSent);
         }
+
+        [HttpDelete("{inviteId}")]
+        public IActionResult DeleteInvitation(int inviteId)
+        {
+            _repo.DeleteThisInvite(inviteId);
+            return Ok();
+        }
     }
 }

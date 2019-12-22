@@ -70,6 +70,18 @@ namespace groceryapp.api.Repositories
 
         }
 
+        public bool DeleteThisInvite(int inviteId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"DELETE
+                            From [Invitation]
+                            Where [Id] = @inviteId";
+
+                return db.Execute(sql, new { inviteId }) == 1;
+            }
+        }
+
 
     }
 }

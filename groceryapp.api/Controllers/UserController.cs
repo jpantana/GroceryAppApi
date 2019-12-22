@@ -35,6 +35,12 @@ namespace groceryapp.api.DataModels
             return _repo.GetSingleUser(uid);
         }
 
+        [HttpGet("invite/{id}")]
+        public IEnumerable<User> GetSingleById(int id)
+        {
+            return _repo.GetSingleUserById(id);
+        }
+
         [HttpGet("lookup/{email}")]
         public IEnumerable<User> GetByEmail(string email)
         {
@@ -51,6 +57,7 @@ namespace groceryapp.api.DataModels
                 Email = newUserCommand.Email,
                 Uid = newUserCommand.Uid,
                 FamilyId = newUserCommand.FamilyId,
+                PhotoURL = newUserCommand.PhotoURL,
             };
 
             var repo = new UserRepository();
@@ -91,7 +98,7 @@ namespace groceryapp.api.DataModels
         }
 
         [HttpDelete("{uid}")]
-        public IActionResult DeleteThisUser(int uid)
+        public IActionResult DeleteThisUser(string uid)
         {
             _repo.Remove(uid);
 
