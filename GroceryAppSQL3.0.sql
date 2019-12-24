@@ -163,7 +163,7 @@ GO
 
 -- SEED DATA
 
-USE GroceriesDb
+USE GroceriesDb2
 GO
 
 
@@ -184,7 +184,7 @@ INSERT INTO Item (Name, GroceryListId, GroceryStoreId)
 
 
 
-DELETE FROM [User]
-DELETE FROM Family
-
-DELETE FROM GroceryList WHERE Id = 4;
+DELETE FROM [User] 
+DELETE FROM Family 
+DELETE FROM Item
+DELETE FROM GroceryList
