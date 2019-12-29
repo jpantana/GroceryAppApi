@@ -32,15 +32,15 @@ namespace groceryapp.api.Controllers
         [HttpPost]
         public IActionResult CreateNewItem(CreateItemCommand newItemCommand)
         {
-            var newItem = new Item
+            var newItem = new CreateItemCommand
             {
                 Name = newItemCommand.Name,
                 GroceryListId = newItemCommand.GroceryListId,
                 GroceryStoreId = newItemCommand.GroceryStoreId,
             };
 
-            var repo = new ItemRepository();
-            var itemThatGotCreated = repo.Add(newItem);
+            // var repo = new ItemRepository();
+            var itemThatGotCreated = _repo.Add(newItem);
 
             return Created($"/item/{itemThatGotCreated.Name}", itemThatGotCreated);
         }

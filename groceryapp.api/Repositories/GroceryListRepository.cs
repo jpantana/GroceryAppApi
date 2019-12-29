@@ -12,7 +12,7 @@ namespace groceryapp.api.Repositories
     public class GroceryListRepository : IGroceryListRepository
     {
 
-        string _connectionString = "Server=localhost;Database=GroceriesDb;Trusted_Connection=True;";
+        string _connectionString = "Server=localhost;Database=GroceriesDb2;Trusted_Connection=True;";
 
         public IEnumerable<GroceryList> GetGroceryLists()
         {
@@ -26,15 +26,15 @@ namespace groceryapp.api.Repositories
             }
         }
 
-        public IEnumerable<GroceryList> GetMyGroceries(string userid)
+        public IEnumerable<GroceryList> GetMyGroceries(string familyId)
         {
             using (var db = new SqlConnection(_connectionString))
             {
                 db.Open();
 
-                var sql = @"SELECT * FROM GroceryList WHERE [UserId] = @id";
+                var sql = @"SELECT * FROM GroceryList WHERE [FamilyId] = @familyId";
 
-                var parameters = new { id = userid };
+                var parameters = new { familyId };
 
                 var myGroceryList = db.Query<GroceryList>(sql, parameters);
 
@@ -53,13 +53,13 @@ namespace groceryapp.api.Repositories
                 var sql = @"
                     INSERT INTO [GroceryList]
                                 ([Name]
-                                ,[UserId]
+                                ,[FamilyId]
                                 ,[DateCreated]
                                 )
 	                    OUTPUT inserted.*
                             VALUES
                                 (@Name
-                                ,@UserId
+                                ,@familyId
                                 ,@DateCreated
                                 )";
 

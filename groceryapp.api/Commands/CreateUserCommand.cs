@@ -14,7 +14,7 @@ namespace groceryapp.api.Commands
         public string LastName { get; set; }
         public DateTime SignUpDate = DateTime.Now;
         public bool IsActive { get; set; }
-        public int FamilyId { get; set; }
-        //public string PhotoURL { get; set; }
+        public string FamilyId { get; set; }
+        public string PhotoURL { get; set; }
     }
 }

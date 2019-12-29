@@ -13,7 +13,12 @@ namespace groceryapp.api.Repositories
         IEnumerable<User> GetAllUsers();
         User Add(User newUserCommand);
         IEnumerable<User> GetSingleUser(string uid);
+        IEnumerable<User> GetSingleUserById(int id);
+        IEnumerable<User> GetUserByEmail(string email);
         ActionResult<User> Update(UpdateUserCommand updatedUser, string uid);
-        bool Remove(int userId);
+        bool Remove(string userId);
+        List<User> GetMyFamilyMembers(string familyId);
+        ActionResult<User> UpdateFamily(ChangeFamilyCommand updatedUser);
+        ActionResult<User> UpdateProfilePic(ChangeProfilePicCommand updatedProfPic, string uid);
     }
 }

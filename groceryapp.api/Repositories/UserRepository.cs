@@ -13,7 +13,7 @@ namespace groceryapp.api.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        string _connectionString = "Server=localhost;Database=GroceriesDb;Trusted_Connection=True;";
+        string _connectionString = "Server=localhost;Database=GroceriesDb2;Trusted_Connection=True;";
 
         public IEnumerable<User> GetAllUsers()
         {
@@ -43,6 +43,7 @@ namespace groceryapp.api.Repositories
                                     ,[SignUpDate]
                                     ,[IsActive]
                                     ,[FamilyId]
+                                    ,[PhotoURL]
                                     )
 	                        OUTPUT inserted.*
                                 VALUES
@@ -52,7 +53,8 @@ namespace groceryapp.api.Repositories
                                     ,@email
                                     ,@signUpDate
                                     ,'true'
-                                    ,1
+                                    ,@familyId
+                                    ,@photoURL
                                     )";
                 // Always passing int 1 for FamilyId to the create user bc 1 is the default 'family' 
                 // for new users until the do a put to join a family
@@ -66,9 +68,38 @@ namespace groceryapp.api.Repositories
             {
                 db.Open();
 
-                var sql = @"Select * From [User] Where [User].uid = @uid";
+                var sql = @"SELECT * FROM [User] WHERE [User].uid = @uid";
 
                 var user = db.Query<User>(sql, new { uid });
+
+                return user;
+            }
+        }
+
+        public IEnumerable<User> GetSingleUserById(int id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                db.Open();
+
+                var sql = @"SELECT * FROM [User] WHERE [User].id = @id";
+
+                var user = db.Query<User>(sql, new { id });
+
+                return user;
+            }
+        }
+
+
+        public IEnumerable<User> GetUserByEmail(string email)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                db.Open();
+
+                var sql = @"SELECT * FROM [User] WHERE [User].Email = @email";
+
+                var user = db.Query<User>(sql, new { Email = email });
 
                 return user;
             }
@@ -93,8 +124,54 @@ namespace groceryapp.api.Repositories
                 return user;
             }
         }
+        
+        public ActionResult<User> UpdateProfilePic(ChangeProfilePicCommand updatedProfPic, string uid)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                db.Open();
 
-        public bool Remove(int userId)
+                var sql = @"UPDATE [User] 
+                            SET [PhotoURL] = @imgUrl
+                            OUTPUT INSERTED.*
+                            WHERE [Uid] = @uid";
+
+                var parameters = new
+                {
+                    uid,
+                    imgUrl = updatedProfPic.PhotoURL,
+                };
+
+                var user = db.QueryFirst<User>(sql, parameters);
+
+                return user;
+            }
+        }
+
+        public ActionResult<User> UpdateFamily(ChangeFamilyCommand updatedUser)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                db.Open();
+
+                var sql = @"UPDATE [User] 
+                            SET [FamilyId] = @familyId
+                            OUTPUT INSERTED.*
+                            WHERE [Id] = @toId";
+
+                var parameters = new
+                {
+                    toId = updatedUser.Id,
+                    familyId = updatedUser.FamilyId
+                };
+
+                var family = db.QueryFirst<User>(sql, parameters);
+
+                return family;
+            }
+        }
+
+        public bool Remove(string userId)
         {
             using (var db = new SqlConnection(_connectionString))
             {
@@ -105,6 +182,23 @@ namespace groceryapp.api.Repositories
                             Where [Uid] = @userId";
 
                 return db.Execute(sql, new { userId }) == 1;
+            }
+        }
+
+        public List<User> GetMyFamilyMembers(string familyId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                db.Open();
+                // may want not * but just user names or emails??
+                var sql = @"SELECT *
+                            From [User]
+                            Where [FamilyId] = @familyId";
+
+                var familyMembers = db.Query<User>(sql, new { familyId });
+
+                return familyMembers.AsList();
+
             }
         }
 

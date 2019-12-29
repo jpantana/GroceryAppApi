@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using groceryapp.api.Commands;
 using groceryapp.api.DataModels;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace groceryapp.api.Repositories
     public class ItemRepository : IItemRepository
     {
 
-        string _connectionString = "Server=localhost;Database=GroceriesDb;Trusted_Connection=True;";
+        string _connectionString = "Server=localhost;Database=GroceriesDb2;Trusted_Connection=True;";
 
         public IEnumerable<Item> GetAllItems()
         {
@@ -25,7 +26,7 @@ namespace groceryapp.api.Repositories
             }
         } 
 
-        public Item Add(Item newItem)
+        public Item Add(CreateItemCommand newItem)
         {
             using (var db = new SqlConnection(_connectionString))
             {

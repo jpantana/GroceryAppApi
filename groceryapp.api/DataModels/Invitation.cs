@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 
 namespace groceryapp.api.DataModels
 {
-    public class GroceryList
+    public class Invitation
     {
-        public int Id { get; }
-        public string Name { get; set; }
+        public int Id { get; set; }
         public string FamilyId { get; set; }
+        public int FromId { get; set; }
+        public int ToId { get; set; }
         public DateTime DateCreated { get; set; }
     }
 }
+

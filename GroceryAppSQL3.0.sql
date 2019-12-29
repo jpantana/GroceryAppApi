@@ -6,12 +6,11 @@ GO
 IF NOT EXISTS (
     SELECT [name]
         FROM sys.databases
-        WHERE [name] = N'GroceriesDb'
+        WHERE [name] = N'GroceriesDb2'
 )
-CREATE DATABASE GroceriesDb
+CREATE DATABASE GroceriesDb2
 GO
 
-USE GroceriesDb
 
 
 
@@ -19,6 +18,7 @@ USE GroceriesDb
 
 
 
+USE GroceriesDb2
 -- Create a table called '[Family]' in schema '[dbo]'
 -- Drop the table if it already exists
 IF OBJECT_ID('[DBO].[Family]', 'U') IS NOT NULL
@@ -27,11 +27,18 @@ GO
 -- Create the table in the specified schema
 CREATE TABLE [dbo].[Family]
 (
-	[Id] INT IDENTITY NOT NULL PRIMARY KEY, -- Primary Key Columnn,
+	[Id] NVARCHAR(68) NOT NULL PRIMARY KEY, -- Primary Key Columnn,
 	[Name] NVARCHAR(255) NOT NULL,
-	[DateCreated] DATE NOT NULL
+	[DateCreated] DATE NOT NULL,
 )
 GO
+
+
+
+
+
+
+
 
 
 
@@ -49,12 +56,16 @@ CREATE TABLE [dbo].[User]
     [SignUpDate] DATETIME NOT NULL,
 	[Uid] NVARCHAR(255) NOT NULL,
 	[Email] NVARCHAR(255) NOT NULL,
+	[PhotoURL] NVARCHAR(1000),
     [IsActive] BIT NOT NULL,
-	[FamilyId] INT NOT NULL
+	[FamilyId] NVARCHAR(68) NOT NULL
 		FOREIGN KEY (FamilyId)
 		REFERENCES Family (Id)
 )
 GO
+
+
+
 
 
 
@@ -71,39 +82,14 @@ CREATE TABLE [dbo].[GroceryList]
 (
     [Id] INT IDENTITY NOT NULL PRIMARY KEY, -- Primary Key Columnn,
     [Name] NVARCHAR(255) NOT NULL,
-    [FamilyId] INT NOT NULL
+	[FamilyId] NVARCHAR(68) NOT NULL
         FOREIGN KEY (FamilyId)
-        REFERENCES [User] (FamilyId),
-	[UserId] INT NOT NULL
-        FOREIGN KEY (UserId)
-        REFERENCES [User] (Id),
+        REFERENCES [Family] (Id),
     [DateCreated] DATE NOT NULL
 )
 GO
 
 
-
-
-
-
----- Create a table called '[Recipe]' in schema '[dbo]'
----- Drop the table if it already exists
---IF OBJECT_ID('[DBO].[Recipe]', 'U') IS NOT NULL
---DROP TABLE [dbo].Recipe
---GO
----- Create the table in the specified schema
---CREATE TABLE [dbo].[Recipe]
---(
---    [Id] INT IDENTITY NOT NULL PRIMARY KEY, -- Primary Key Columnn,
---	[Name] NVARCHAR(255) NOT NULL,
---	[Ingredients] NVARCHAR(MAX) NOT NULL,
---	[Instructions] NVARCHAR(MAX) NOT NULL,
---    [UserId] INT NOT NULL,
---        FOREIGN KEY (UserId)
---        REFERENCES [User] (Id),
---    [CookIt] BIT NOT NULL
---)
---GO
 
 
 
@@ -124,6 +110,12 @@ CREATE TABLE [dbo].[GroceryStore]
 GO
 
 
+
+
+
+
+
+
 -- Create a new table called '[Item]' in schema '[dbo]'
 -- Drop the table if it already exists
 IF OBJECT_ID('[dbo].[Item]', 'U') IS NOT NULL
@@ -134,6 +126,7 @@ CREATE TABLE [dbo].Item
 (
     [Id] INT IDENTITY NOT NULL PRIMARY KEY, -- Primary Key column
     [Name] NVARCHAR(255) NOT NULL,
+	[Category] NVARCHAR(255),
 	[GroceryListId] INT NOT NULL
         FOREIGN KEY (GroceryListId)
         REFERENCES GroceryList (Id),
@@ -145,59 +138,32 @@ GO
 
 
 
-
-
-
-
-
 -- Create a table called '[Invite]' in schema '[dbo]'
 -- Drop the table if it already exists
-IF OBJECT_ID('[DBO].[Invite]', 'U') IS NOT NULL
-DROP TABLE [dbo].Invite
+IF OBJECT_ID('[DBO].[Message]', 'U') IS NOT NULL
+DROP TABLE [dbo].Invitation
 GO
 -- Create the table in the specified schema
-CREATE TABLE [dbo].[Invite]
+CREATE TABLE [dbo].[Invitation]
 (
 	[Id] INT IDENTITY NOT NULL PRIMARY KEY, -- Primary Key Columnn,
-	[FamilyId] INT NOT NULL
+	[FamilyId] NVARCHAR(68) NOT NULL
         FOREIGN KEY (FamilyId)
         REFERENCES Family (Id),
-	[UserId] INT NOT NULL
-		FOREIGN KEY (UserId)
+	[FromId] INT NOT NULL
+		FOREIGN KEY (FromId)
 		REFERENCES [User] (Id),
-	[SenderId] INT NOT NULL
-		FOREIGN KEY (SenderId)
+	[ToId] INT NOT NULL
+		FOREIGN KEY (ToId)
 		REFERENCES [User] (Id),
 	[DateCreated] DATE NOT NULL
 )
 GO
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 -- SEED DATA
 
-USE GroceriesDb
+USE GroceriesDb2
 GO
 
 
@@ -207,54 +173,18 @@ INSERT INTO Family (Name, DateCreated)
 INSERT INTO [User] (FirstName, LastName, IsActive, FamilyId, [Uid], Email, SignUpDate)
 	VALUES ('Josh', 'Pantana', 1, 1, 'lsfjsf8s', 'josh@josh.com', '1900-01-01 00:00:00')
 
-INSERT INTO GroceryList (Name, UserId, DateCreated)
+INSERT INTO GroceryList (Name, FamilyId, DateCreated)
 	VALUES ('Our Groceries', 1, '2019-12-03')
 
 INSERT INTO GroceryStore (Name)
-	VALUES ('Kroger')
+	VALUES ('Default Grocery')
 
 INSERT INTO Item (Name, GroceryListId, GroceryStoreId)
 	VALUES ('Milk', 1, 1)
 
-SELECT * from Item
-SELECT * from [User]
-SELECT * from GroceryStore
-SELECT * from GroceryList
-SELECT * from Family
 
 
-	--"FirstName": "Jason",
-	--"LastName": "Pantana",
-	--"Uid": "asfg",
-	--"email": "jasonpantana@gmail.com"
-
-
-ALTER TABLE [User] ALTER COLUMN FirstName NVARCHAR(255) NULL
-ALTER TABLE [User] ALTER COLUMN LastName NVARCHAR(255) NULL
-
-
-DELETE FROM [User] WHERE Id = 17
-DELETE FROM [User] WHERE Id = 18
-DELETE FROM [User] WHERE Id = 19
-DELETE FROM [User] WHERE Id = 20
-DELETE FROM [User] WHERE Id = 21
-DELETE FROM [User] WHERE Id = 22
-DELETE FROM [User] WHERE Id = 23
-DELETE FROM [User] WHERE Id = 24
-DELETE FROM [User] WHERE Id = 25
-DELETE FROM [User] WHERE Id = 26
-DELETE FROM [User] WHERE Id = 37
-DELETE FROM [User] WHERE Id = 38
-select * from [User]
-
-DELETE FROM GroceryList WHERE Id = 14
-DELETE FROM GroceryList WHERE Id = 13
-DELETE FROM GroceryList WHERE Id = 15
-DELETE FROM GroceryList WHERE Id = 17
-
-DELETE  From [Item]
-Where [Id] = 9;
-
-
-ALTER TABLE GroceryList
-ADD FamilyId
+DELETE FROM [User] 
+DELETE FROM Family 
+DELETE FROM Item
+DELETE FROM GroceryList

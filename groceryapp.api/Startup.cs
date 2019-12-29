@@ -34,6 +34,7 @@ namespace groceryapp.api
             services.AddScoped<IGroceryStoreRepository, GroceryStoreRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IFamilyRepository, FamilyRepository>();
+            services.AddScoped<IInvitationRepository, InvitationRepository>();
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.AllowAnyOrigin()

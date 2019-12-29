@@ -35,6 +35,17 @@ namespace groceryapp.api.DataModels
             return _repo.GetSingleUser(uid);
         }
 
+        [HttpGet("invite/{id}")]
+        public IEnumerable<User> GetSingleById(int id)
+        {
+            return _repo.GetSingleUserById(id);
+        }
+
+        [HttpGet("lookup/{email}")]
+        public IEnumerable<User> GetByEmail(string email)
+        {
+            return _repo.GetUserByEmail(email);
+        }
 
         [HttpPost]
         public IActionResult CreateNewUser(CreateUserCommand newUserCommand)
@@ -45,11 +56,12 @@ namespace groceryapp.api.DataModels
                 LastName = newUserCommand.LastName,
                 Email = newUserCommand.Email,
                 Uid = newUserCommand.Uid,
-                // fam id is new. sql used to just say '1'
-                // FamilyId = newUserCommand.FamilyId
+                FamilyId = newUserCommand.FamilyId,
+                PhotoURL = newUserCommand.PhotoURL,
             };
 
             var repo = new UserRepository();
+            // TRY TO USE _repo field that leans on the IUserRepo
             var userThatGotCreated = repo.Add(newUser);
 
             return Created($"/user/{userThatGotCreated.FirstName}", userThatGotCreated);
@@ -66,17 +78,51 @@ namespace groceryapp.api.DataModels
                 LastName = updatedUserCommand.LastName,
             };
 
-            var trainerThatGotUpdated = _repo.Update(updatedUser, uid);
+            var userThatGotUpdated = _repo.Update(updatedUser, uid);
 
-            return Ok(trainerThatGotUpdated);
+            return Ok(userThatGotUpdated);
+        }
+
+        [HttpPut("{toId}/{familyId}")]
+        public IActionResult ChangeFamily(int toId, string familyId)
+        {
+            var updatedUser = new ChangeFamilyCommand
+            {
+                Id = toId,
+                FamilyId = familyId,
+            };
+
+            var userThatGotUpdated = _repo.UpdateFamily(updatedUser);
+
+            return Ok(userThatGotUpdated);
+        }
+
+        [HttpPut("uploadimage/{uid}")]
+        public IActionResult AddProfilePicture(ChangeProfilePicCommand updatedProfile, string uid)
+        {
+
+            var updatedProfPic = new ChangeProfilePicCommand
+            {
+                PhotoURL = updatedProfile.PhotoURL
+            };
+
+            var userThatGotUpdated = _repo.UpdateProfilePic(updatedProfPic, uid);
+
+            return Ok(userThatGotUpdated);
         }
 
         [HttpDelete("{uid}")]
-        public IActionResult DeleteThisUser(int uid)
+        public IActionResult DeleteThisUser(string uid)
         {
             _repo.Remove(uid);
 
             return Ok();
+        }
+
+        [HttpGet("myfamily/{familyId}")]
+        public ActionResult<IEnumerable<User>> GetMyFamilyMembers(string familyId)
+        {
+            return _repo.GetMyFamilyMembers(familyId);
         }
     }
 }

@@ -29,10 +29,10 @@ namespace groceryapp.api.Controllers
             return _repo.GetGroceryLists();
         }
 
-        [HttpGet("{id}")]
-        public IEnumerable<GroceryList> GetMyList(string id)
+        [HttpGet("{familyId}")]
+        public IEnumerable<GroceryList> GetMyList(string familyId)
         {
-            return _repo.GetMyGroceries(id);
+            return _repo.GetMyGroceries(familyId);
         }
 
         [HttpPost]
@@ -41,7 +41,7 @@ namespace groceryapp.api.Controllers
             var newGroceryList = new GroceryList
             {
                 Name = newGroceryListCommand.Name,
-                UserId = newGroceryListCommand.UserId,
+                FamilyId = newGroceryListCommand.FamilyId,
                 DateCreated = newGroceryListCommand.DateCreated
             };
 
