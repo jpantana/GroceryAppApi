@@ -125,6 +125,29 @@ namespace groceryapp.api.Repositories
             }
         }
         
+        public ActionResult<User> UpdateProfilePic(ChangeProfilePicCommand updatedProfPic, string uid)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                db.Open();
+
+                var sql = @"UPDATE [User] 
+                            SET [PhotoURL] = @imgUrl
+                            OUTPUT INSERTED.*
+                            WHERE [Uid] = @uid";
+
+                var parameters = new
+                {
+                    uid,
+                    imgUrl = updatedProfPic.PhotoURL,
+                };
+
+                var user = db.QueryFirst<User>(sql, parameters);
+
+                return user;
+            }
+        }
+
         public ActionResult<User> UpdateFamily(ChangeFamilyCommand updatedUser)
         {
             using (var db = new SqlConnection(_connectionString))

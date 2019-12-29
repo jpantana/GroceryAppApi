@@ -18,7 +18,7 @@ namespace groceryapp.api.Repositories
         ActionResult<User> Update(UpdateUserCommand updatedUser, string uid);
         bool Remove(string userId);
         List<User> GetMyFamilyMembers(string familyId);
-
         ActionResult<User> UpdateFamily(ChangeFamilyCommand updatedUser);
+        ActionResult<User> UpdateProfilePic(ChangeProfilePicCommand updatedProfPic, string uid);
     }
 }

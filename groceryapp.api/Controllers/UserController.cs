@@ -97,6 +97,20 @@ namespace groceryapp.api.DataModels
             return Ok(userThatGotUpdated);
         }
 
+        [HttpPut("uploadimage/{uid}")]
+        public IActionResult AddProfilePicture(ChangeProfilePicCommand updatedProfile, string uid)
+        {
+
+            var updatedProfPic = new ChangeProfilePicCommand
+            {
+                PhotoURL = updatedProfile.PhotoURL
+            };
+
+            var userThatGotUpdated = _repo.UpdateProfilePic(updatedProfPic, uid);
+
+            return Ok(userThatGotUpdated);
+        }
+
         [HttpDelete("{uid}")]
         public IActionResult DeleteThisUser(string uid)
         {
