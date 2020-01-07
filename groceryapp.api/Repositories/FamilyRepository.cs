@@ -12,7 +12,10 @@ namespace groceryapp.api.Repositories
 {
     public class FamilyRepository : IFamilyRepository
     {
-        string _connectionString = "Server=localhost;Database=GroceriesDb2;Trusted_Connection=True;";
+        // FOR MAC
+        string _connectionString = "Server=localhost;Database=GroceriesDb2;User Id=sa; Password=reallyStrongPwd123";
+        // FOR PC
+        // string _connectionString = "Server=localhost;Database=GroceriesDb2;Trusted_Connection=True;";
 
         public IEnumerable<Family> GetAllFamily()
         {
