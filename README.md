@@ -1,6 +1,6 @@
 # Sweet Carts API
 
-# Sweet Carts API is an asp.net core api app that builds the database for groceryapp.ui repo
+### Sweet Carts API is an asp.net core api app that builds the database for groceryapp.ui repo
 
 ## Installation Instructions
 - Clone down this repo
