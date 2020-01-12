@@ -11,7 +11,9 @@ namespace groceryapp.api.Repositories
 {
     public class InvitationRepository : IInvitationRepository
     {
-        string _connectionString = "Server=localhost;Database=GroceriesDb2;Trusted_Connection=True;";
+
+        //string _connectionString = "Server=localhost;Database=GroceriesDb2;Trusted_Connection=True;";
+        string _connectionString = "Server=tcp:groceryappserver.database.windows.net,1433;Initial Catalog=GroceryDb;Persist Security Info=False;User ID=jpantana;Password=GroceryAppPwd1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
         public IEnumerable<Invitation> GetAllInvitations()
         {
